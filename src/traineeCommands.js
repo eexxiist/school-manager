@@ -1,25 +1,60 @@
 import { saveTraineeData, loadTraineeData } from './storage.js';
 
-function addTrainee() {
-  // TODO: Implement the logic
+function addTrainee(args) {
+  const arrTrainee = loadTraineeData() || [];
+  const objTrainee = {
+    id: arrTrainee.length ? arrTrainee?.[arrTrainee.length - 1].id + 1 : 1,
+    firstName: args?.[0],
+    lastName: args?.[1],
+  };
+  saveTraineeData([...arrTrainee, objTrainee]);
 }
 
-function updateTrainee() {
-  // TODO: Implement the logic
+function updateTrainee(args) {
+  const arrTrainee = loadTraineeData() || [];
+  const newArr = arrTrainee.map((trainee) =>
+    trainee.id === +args[0]
+      ? { id: +args[0], firstName: args[1], lastName: args[2] }
+      : trainee
+  );
+  saveTraineeData(newArr);
 }
 
-function deleteTrainee() {
-  // TODO: Implement the logic
+function deleteTrainee(args) {
+  const arrTrainee = loadTraineeData() || [];
+  const newArr = arrTrainee.filter((trainee) => trainee.id !== +args[0]);
+  saveTraineeData(newArr);
 }
 
-function fetchTrainee() {
-  // TODO: Implement the logic
+function fetchTrainee(args) {
+  const arrTrainee = loadTraineeData() || [];
+  return arrTrainee.find((trainee) => trainee.id === +args[0]);
 }
 
 function fetchAllTrainees() {
-  // TODO: Implement the logic
+  return loadTraineeData();
 }
 
 export function handleTraineeCommand(subcommand, args) {
-  // Read the subcommand and call the appropriate function with the arguments
+  switch (subcommand) {
+    case 'add':
+      addTrainee(args);
+      break;
+    case 'update':
+      updateTrainee(args);
+      break;
+    case 'delete':
+      deleteTrainee(args);
+      break;
+    case 'fetch':
+      const trainee = fetchTrainee(args);
+      trainee ? console.log(trainee) : console.log('Trainee not found');
+      break;
+    case 'list':
+      const trainees = fetchAllTrainees(args);
+      console.log(trainees);
+      break;
+    default:
+      console.log('Unknowing command');
+  }
 }
