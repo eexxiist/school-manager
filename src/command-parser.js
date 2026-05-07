@@ -1,3 +1,5 @@
 export function parseCommand(userInput) {
-  // TODO: Implement the logic to parse the user input and return an object with the command, subcommand, and arguments
+  const cutStr = userInput.trim().split(' ');
+  const obj = { entity: cutStr[0], action: cutStr[1], args: cutStr.slice(2)};
+  return obj;
 }
