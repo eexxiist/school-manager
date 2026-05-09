@@ -27,7 +27,7 @@ function deleteTrainee(args) {
 }
 
 function fetchTrainee(args) {
-  const arrTrainee = loadTraineeData() || [];
+  const arrTrainee = loadTraineeData()
   return arrTrainee.find((trainee) => trainee.id === +args[0]);
 }
 
